@@ -3,7 +3,6 @@
  $sql = "
   SELECT
     genres.Name,
-    genres.GenreId,
     tracks.Name AS trackName,
     tracks.UnitPrice,
     albums.Title,
@@ -18,7 +17,7 @@
  ";
 
  if (isset($_GET['genre'])){
-    $sql = $sql . 'WHERE genres.GenreId = ?';
+    $sql = $sql . 'WHERE genres.Name = ?';
  }
 
  $statement = $pdo->prepare($sql);
@@ -30,22 +29,6 @@
  $statement->execute();
  $tracks = $statement->fetchAll(PDO::FETCH_OBJ);
  // var_dump($tracks);
-
-//Get the Genre Name
-if (isset($_GET['genre'])){
-  $genresql = "
-    SELECT
-      genres.Name
-    FROM genres
-    WHERE genres.GenreId = ?
-  ";
-
-  $genreStatement = $pdo->prepare($genresql);
-  $genreStatement->bindParam(1, $_GET['genre']);
-  $genreStatement->execute();
-  $genreNames = $genreStatement->fetchAll(PDO::FETCH_OBJ);
-
-}
 
 
 ?>
@@ -59,11 +42,7 @@ if (isset($_GET['genre'])){
 </head>
 <body>
   <h1>
-    <?php if (isset($_GET['genre'])){
-      foreach($genreNames as $genreName){
-        echo $genreName->Name;
-      }
-     }?>
+    <?php echo $_GET['genre']?>
   Songs
   </h1>
   <table class="table">

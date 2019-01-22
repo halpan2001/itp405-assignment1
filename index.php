@@ -2,8 +2,7 @@
  $pdo = new PDO('sqlite:chinook.db');
  $sql = "
   SELECT
-    genres.Name,
-    genres.GenreId
+    genres.Name
   FROM genres
  ";
 
@@ -32,7 +31,7 @@
     <?php foreach($genres as $genre): ?>
       <tr>
         <td>
-          <a href="tracks.php?genre=<?php echo $genre->GenreId ?>"><?php echo $genre->Name?></a>
+          <a href="tracks.php?genre=<?php echo urlencode($genre->Name) ?>"><?php echo $genre->Name?></a>
         </td>
       </tr>
     <?php endforeach?>
